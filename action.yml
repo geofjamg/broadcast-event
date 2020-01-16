@@ -1,0 +1,13 @@
+name: 'Broadcast event'
+description: 'An action to broadcast an event to all repositories of an organization'
+inputs:
+  token:
+    description: 'A repo scoped GitHub Personal Access Token'
+    required: true
+  event-type:
+    description: 'The event type to broadcast'
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
