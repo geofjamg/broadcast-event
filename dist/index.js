@@ -241,27 +241,36 @@ async function run() {
         const owner = process.env.GITHUB_REPOSITORY.split('/')[0];
         core.debug(`Owner: ${owner}`);
 
-        // get repository list for this owner
-        const result = await request(`GET /users/${owner}/repos`);
-        const repositories = result.data.map(repo => repo.name);
+        const additionalOrganizations = core.getInput("organizations");
+        core.debug(`Organizations: ${additionalOrganizations}`);
 
-        // send the event to all repositories
-        repositories.forEach(repository => {
-            core.info(`Send event to repository: ${repository}`);
-            request(
-                `POST /repos/${owner}/${repository}/dispatches`,
-                {
-                    headers: {
-                        authorization: `token ${token}`
-                    },
-                    mediaType: {
-                        previews: ['everest']
-                    },
-                    event_type: `${eventType}`
-                }
-            );
-        });
+        const organizations = additionalOrganizations ? [owner, ...additionalOrganizations.split(' ')] : [owner];
+        core.info(`Organizations: ${organizations}`);
 
+        for (const index in organizations) {
+            const organization = organizations[index];
+
+            // get repository list for this organization
+            const result = await request(`GET /users/${organization}/repos`);
+            const repositories = result.data.map(repo => repo.name);
+
+            // send the event to all repositories
+            repositories.forEach(repository => {
+                core.info(`Send event to repository: ${organization}/${repository}`);
+                request(
+                    `POST /repos/${organization}/${repository}/dispatches`,
+                    {
+                        headers: {
+                            authorization: `token ${token}`
+                        },
+                        mediaType: {
+                            previews: ['everest']
+                        },
+                        event_type: `${eventType}`
+                    }
+                );
+            });
+        }
     } catch (error) {
         core.setFailed(error.message);
     }

@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/geofjamg/broadcast-event.git"
+    "url": "git+https://github.com/gridsuite/broadcast-event.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/geofjamg/broadcast-event/issues"
+    "url": "https://github.com/gridsuite/broadcast-event/issues"
   },
-  "homepage": "https://github.com/geofjamg/broadcast-event#readme",
+  "homepage": "https://github.com/gridsuite/broadcast-event#readme",
   "dependencies": {
     "@actions/core": "^1.2.1",
     "@actions/github": "^2.0.1"

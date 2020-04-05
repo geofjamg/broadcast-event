@@ -4,6 +4,9 @@ inputs:
   token:
     description: 'A repo scoped GitHub Personal Access Token'
     required: true
+  organizations:
+    description: 'Additionnal organizations to send the event'
+    required: false
   event-type:
     description: 'The event type to broadcast'
     required: true

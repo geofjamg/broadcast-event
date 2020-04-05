@@ -8,6 +8,10 @@ Github Action to broadcast an event to all other repositories using repository d
 
  A repo scoped GitHub [Personal Access Token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line).
 
+### `organizations` (**optional**)
+
+A list of organizations separated by a white space to send the event in addition to current organization.
+
 ### `event-type` (**required**)
 
 A custom event type.
@@ -17,7 +21,7 @@ A custom event type.
 Here is an example how to broadcast an event:
 
 ```yaml
-uses: geofjamg/broadcast-event@v1.0.0
+uses: gridsuite/broadcast-event@master
 with:
   token: ${{ secrets.REPO_ACCESS_TOKEN }}
   event-type: my-event
@@ -36,4 +40,4 @@ jobs:
 ```
 ## License
 
-[Apache 2.0](https://github.com/geofjamg/broadcast-event/blob/master/LICENSE)
+[Apache 2.0](https://github.com/gridsuite/broadcast-event/blob/master/LICENSE)
