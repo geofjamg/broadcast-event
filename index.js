@@ -22,7 +22,10 @@ async function run() {
             const organization = organizations[index];
 
             // get repository list for this organization
-            const result = await request(`GET /users/${organization}/repos`);
+            const result = await request(`GET /users/${organization}/repos{?per_page}`,
+                {
+                    per_page: "100"
+                });
             const repositories = result.data.map(repo => repo.name);
 
             // send the event to all repositories
