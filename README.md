@@ -21,7 +21,7 @@ A custom event type.
 Here is an example how to broadcast an event:
 
 ```yaml
-uses: gridsuite/broadcast-event@master
+uses: gridsuite/broadcast-event@main
 with:
   token: ${{ secrets.REPO_ACCESS_TOKEN }}
   event-type: my-event
@@ -40,4 +40,4 @@ jobs:
 ```
 ## License
 
-[Apache 2.0](https://github.com/gridsuite/broadcast-event/blob/master/LICENSE)
+[Apache 2.0](https://github.com/gridsuite/broadcast-event/blob/main/LICENSE)
