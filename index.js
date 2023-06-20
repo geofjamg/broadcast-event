@@ -28,14 +28,12 @@ async function run() {
                 });
 
             // send the event to all repositories which are not archived (otherwise the post call throws a 404 error)
-            const unarchivedRepositories = result.filter(
+            const unarchivedRepositories = result.data.filter(
                 (repositories) => !repositories.archived
-            );
-
-            const unarchivedRepositoriesNames = unarchivedRepositories.data.map((repo) => repo.name);
+            ).map((repo) => repo.name);
 
             await Promise.all(
-                unarchivedRepositoriesNames.map(
+                unarchivedRepositories.map(
                     (repository) => {
                         core.info(
                             `Send event to repository: ${organization}/${repository}`
