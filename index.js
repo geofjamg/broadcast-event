@@ -49,8 +49,6 @@ async function run() {
                             },
                             event_type: `${eventType}`,
                         })
-                            .then(resolve())
-                            .catch((err) => reject(err));
                     }
                 )
             );
