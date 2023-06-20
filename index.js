@@ -26,24 +26,35 @@ async function run() {
                 {
                     per_page: "100"
                 });
-            const repositories = result.data.map(repo => repo.name);
 
-            // send the event to all repositories
-            repositories.forEach(repository => {
-                core.info(`Send event to repository: ${organization}/${repository}`);
-                request(
-                    `POST /repos/${organization}/${repository}/dispatches`,
-                    {
-                        headers: {
-                            authorization: `token ${token}`
-                        },
-                        mediaType: {
-                            previews: ['everest']
-                        },
-                        event_type: `${eventType}`
-                    }
-                );
-            });
+            // send the event to all repositories which are not archived (otherwise the post call throws a 404 error)
+            const unarchivedRepositories = result.filter(
+                (repositories) => !repositories.archived
+            );
+
+            const unarchivedRepositoriesNames = unarchivedRepositories.data.map((repo) => repo.name);
+
+            await Promise.all(
+                unarchivedRepositoriesNames.map(
+                    (repository) =>
+                        new Promise((resolve, reject) => {
+                            core.info(
+                                `Send event to repository: ${organization}/${repository}`
+                            );
+                            request(`POST /repos/${organization}/${repository}/dispatches`, {
+                                headers: {
+                                    authorization: `token ${token}`,
+                                },
+                                mediaType: {
+                                    previews: ["everest"],
+                                },
+                                event_type: `${eventType}`,
+                            })
+                                .then(resolve())
+                                .catch((err) => reject(err));
+                        })
+                )
+            );
         }
     } catch (error) {
         core.setFailed(error.message);
