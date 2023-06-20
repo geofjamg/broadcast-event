@@ -36,23 +36,22 @@ async function run() {
 
             await Promise.all(
                 unarchivedRepositoriesNames.map(
-                    (repository) =>
-                        new Promise((resolve, reject) => {
-                            core.info(
-                                `Send event to repository: ${organization}/${repository}`
-                            );
-                            request(`POST /repos/${organization}/${repository}/dispatches`, {
-                                headers: {
-                                    authorization: `token ${token}`,
-                                },
-                                mediaType: {
-                                    previews: ["everest"],
-                                },
-                                event_type: `${eventType}`,
-                            })
-                                .then(resolve())
-                                .catch((err) => reject(err));
+                    (repository) => {
+                        core.info(
+                            `Send event to repository: ${organization}/${repository}`
+                        );
+                        return request(`POST /repos/${organization}/${repository}/dispatches`, {
+                            headers: {
+                                authorization: `token ${token}`,
+                            },
+                            mediaType: {
+                                previews: ["everest"],
+                            },
+                            event_type: `${eventType}`,
                         })
+                            .then(resolve())
+                            .catch((err) => reject(err));
+                    }
                 )
             );
         }
